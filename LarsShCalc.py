@@ -12,35 +12,39 @@ import matplotlib.pyplot as plt
 from astropy.convolution import convolve, Box1DKernel
 
 
-xl = []
-yl = []
 trix = []
 triy = []
-temp = []
 nums = []
+limage_file = fits.open('101501_190506.1076.fits')
+
 #H Core Line
-limage_file = fits.open('157214_180625.1150.spec.fits')
+
 limage_file.info()
-limage_data = limage_file[0].data.copy()
+limage_data = limage_file[0].data.copy()    #general region import
 limage_flux =  limage_data[0,6,:]
 limage_wl =  limage_data[1,6,:]
 limage_cont =  limage_data[2,6,:]
 
-xl = []
+
+xl = []                                         #array reset
 yl = []
-temp = []
+tempx = []
+tempy = []
 
 for i in range(1000, 6000):
-    yl.append(limage_flux[i]/(limage_cont[i]*1000))
+    yl.append(limage_flux[i]/(limage_cont[i]*1000)) #specific region import
     xl.append(limage_wl[i])
 
 
 for i in range(len(xl)):
-    if xl[i] < 3969.545 and xl[i] > 3968.455:
-        temp.append(yl[i])
+    if xl[i] < 3969.545 and xl[i] > 3968.455:   #region definition
+        tempy.append(yl[i])
+        tempx.append(xl[i])
 
-nums.append(np.mean(temp))
+nums.append(np.trapz(tempy, tempx))     #trapezoidal integration
+
 #K Core Line
+
 limage_data = limage_file[0].data.copy()
 limage_flux =  limage_data[0,4,:]
 limage_wl =  limage_data[1,4,:]
@@ -48,7 +52,8 @@ limage_cont =  limage_data[2,4,:]
 
 xl = []
 yl = []
-temp = []
+tempx = []
+tempy = []
 
 for i in range(1000, 6000):
     yl.append(limage_flux[i]/(limage_cont[i]*1000))
@@ -57,10 +62,13 @@ for i in range(1000, 6000):
 
 for i in range(len(xl)):
     if xl[i] < 3935.545 and xl[i] > 3934.455:
-        temp.append(yl[i])
+        tempy.append(yl[i])
+        tempx.append(xl[i])
 
-nums.append(np.mean(temp))
-# R continuum
+nums.append(np.trapz(tempy, tempx))
+
+#R continuum
+
 limage_data = limage_file[0].data.copy()
 limage_flux =  limage_data[0,7,:]
 limage_wl =  limage_data[1,7,:]
@@ -68,7 +76,8 @@ limage_cont =  limage_data[2,7,:]
 
 xl = []
 yl = []
-temp = []
+tempx= []
+tempy =[]
 
 for i in range(1000, 6000):
     yl.append(limage_flux[i]/(limage_cont[i]*1000))
@@ -77,11 +86,13 @@ for i in range(1000, 6000):
 
 for i in range(len(xl)):
     if xl[i] < 4011 and xl[i] > 3991:
-        temp.append(yl[i])
+        tempy.append(yl[i])
+        tempx.append(xl[i])
 
-nums.append(np.mean(temp))
+nums.append(np.trapz(tempy, tempx))
 
 #V Continuum
+
 limage_data = limage_file[0].data.copy()
 limage_flux =  limage_data[0,3,:]
 limage_wl =  limage_data[1,3,:]
@@ -89,7 +100,8 @@ limage_cont =  limage_data[2,3,:]
 
 xl = []
 yl = []
-temp = []
+tempx = []
+tempy = []
 
 for i in range(1000, 6000):
     yl.append(limage_flux[i]/(limage_cont[i]*1000))
@@ -98,11 +110,12 @@ for i in range(1000, 6000):
 
 for i in range(len(xl)):
     if xl[i] < 3911 and xl[i] > 3891:
-        temp.append(yl[i])
+        tempy.append(yl[i])
+        tempx.append(xl[i])
 
-nums.append(np.mean(temp))
+nums.append(np.trapz(tempy, tempx))
 
 limage_file.close()
-print(nums[0],nums[1],nums[2],nums[3])
 
+print(nums[0],nums[1],nums[2],nums[3])
 print((nums[0]+nums[1])/(nums[2]+nums[3]))
