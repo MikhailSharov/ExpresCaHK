@@ -18,14 +18,13 @@ import scipy.optimize as opt
 y= []
 x= []
 SNRH= []
-ys = np.array([0.311,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.149])
-xs = np.array([0.0188,0.0165,0.0183,0.0106,0.0083,0.0095,0.0199,0.0087,0.0156,0.0146])
+ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343,0.149])
+xs = np.array([0.0182, 0.0190, 0.0190, 0.0106, 0.0081, 0.0093, 0.0199, 0.0088, 0.0161, 0.0361, 0.0149])
 SNRHs = np.array([0.388,0.280,0.229,0.231,0.233,0.321,0.239,0.238,0.309,0.275,0.416,0.445,0.358,0.251,0.298,0.342,0.237,0.358,0.271,0.348,0.274,0.254,0.418,0.668])
 for i in range(len(ys)):
     y.append(ys[i])
     x.append(xs[i])
     SNRH.append(SNRHs[i])
-    print(ys[i])
 x = np.asarray(x)
 y = np.asarray(y)
 SNRH = np.asarray(SNRH)
@@ -52,7 +51,7 @@ def func(x, A, c, d):
 x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits between 0 and max
 ###
 ## Trials
-#A, c, d = -5.3,0.22,0.12
+#A, c, d = 20,-0.12,0.12
 #y_trial1 = func(x_lin,  A,     c, d)
 #y_trial2 = func(x_lin, -1, -1e-3, 1)
 #y_trial3 = func(x_lin, -1, -3e-3, 1)
@@ -63,42 +62,41 @@ x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits 
 ####plt.legend()
 ##
 ## REGRESSION ------------------------------------------------------------------
-p0 = [-5.3, -120, 0.12]                                        # guessed params
-w, _ = opt.curve_fit(func, x, y, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
-print("Estimated Parameters", w)  
-#
-# Model
-y_model = func(x_lin, *w)
+#p0 = [20, -0.120, 0.12]                                        # guessed params
+#w, _ = opt.curve_fit(func, x, y, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
+#print("Estimated Parameters", w)  
 ##
-# PLOT ------------------------------------------------------------------------
-# Visualize data and fitted curves
-plt.clf()
-plt.plot(x, y, "ko", label="Data")
-plt.plot(x_lin, y_model, "k--", label="Fit")
-plt.title("Least squares regression")
-plt.legend(loc="upper left")
-#
-#for i in range(len(y)):
-#    x[i] = (57.9*((x[i]-0.022)**2))+0.155
-#
+## Model
+#y_model = func(x_lin, *w)
+###
+## PLOT ------------------------------------------------------------------------
+## Visualize data and fitted curves
 #plt.clf()
-#plt.scatter(x,y,c = SNRH,cmap = 'viridis',label = 'Fitted Data')
-#plt.colorbar()
-#plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
-##plt.plot([0,0.5],[0.04,0.54],'b--',label='rms')
-##plt.plot([0,0.5],[-0.04,0.46],'b--')
-#plt.title('$S_{Expres}$ Fitted With Least Squares (Quadratic Fit) +- 1RMS')
-#plt.xlabel('$S_{Expres}$')
-#plt.ylabel('$S_{MW}$')
-#plt.legend(loc='upper left')
-##plt.gca().set_yscale('log')
-##plt.gca().set_xscale('log')
-#plt.plot
-#for i in range(len(x)):
-#    chis.append(((y[i]-x[i])**2)/x[i])
-#    rms.append((y[i]-x[i])**2)
-#print('chi squared = ', sum(chis))
-#print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
+#plt.plot(x, y, "ko", label="Data")
+#plt.plot(x_lin, y_model, "k--", label="Fit")
+#plt.title("Least squares regression")
+#plt.legend(loc="upper left")
+#
+for i in range(len(y)):
+    x[i] = (5.76*x[i]) + 0.0984
+
+plt.clf()
+plt.scatter(x,y,c = 'k',label = 'Fitted Data')
+plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
+plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
+plt.plot([0,0.5],[-0.041,0.459],'b--')
+plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit) +- 1RMS')
+plt.xlabel('$S_{Expres}$')
+plt.ylabel('$S_{MW}$')
+plt.legend(loc='upper left')
+#plt.gca().set_yscale('log')
+#plt.gca().set_xscale('log')
+plt.plot
+for i in range(len(x)):
+    chis.append(((y[i]-x[i])**2)/x[i])
+    rms.append((y[i]-x[i])**2)
+print('chi squared = ', sum(chis))
+print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 
 #plt.clf()
 #plt.scatter(x,y)
