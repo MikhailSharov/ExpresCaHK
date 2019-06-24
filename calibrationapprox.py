@@ -19,7 +19,8 @@ y= []
 x= []
 SNRH= []
 ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343,0.149])
-xs = np.array([0.0182, 0.0190, 0.0190, 0.0106, 0.0081, 0.0093, 0.0199, 0.0088, 0.0161, 0.0361, 0.0149])
+xs = np.array([0.0169, 0.0156, 0.0113, 0.0087, 0.0075, 0.0086, 0.01227, 0.0080, 0.0088, 0.0341, 0.0112])
+xlars = np.array([0.0096, 0.0095, 0.0103, 0.0063, 0.00538, 0.0067, 0.0091, 0.0074, 0.0068, 0.0165, 0.0119])
 SNRHs = np.array([0.388,0.280,0.229,0.231,0.233,0.321,0.239,0.238,0.309,0.275,0.416,0.445,0.358,0.251,0.298,0.342,0.237,0.358,0.271,0.348,0.274,0.254,0.418,0.668])
 for i in range(len(ys)):
     y.append(ys[i])
@@ -45,8 +46,9 @@ def func(x, A, c, d):
 #
 # SURVEY ----------------------------------------------------------------------
 # Plotting Sampling Data
-#plt.clf()
-#plt.scatter(x, y, c = 'k', label="Data")
+plt.clf()
+plt.scatter(x, y, c = 'k', label="RP Extraction S-values")
+plt.scatter(xlars, ys, c = 'orange', label = 'Lars Repack S-values')
 ####
 x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits between 0 and max
 ###
@@ -59,7 +61,7 @@ x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits 
 #plt.plot(x_lin, y_trial1, "--", label="Trial 1")
 ####plt.plot(x_lin, y_trial2, "--", label="Trial 2")
 ####plt.plot(x_lin, y_trial3, "--", label="Trial 3")
-####plt.legend()
+plt.legend()
 ##
 ## REGRESSION ------------------------------------------------------------------
 #p0 = [20, -0.120, 0.12]                                        # guessed params
@@ -77,26 +79,26 @@ x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits 
 #plt.title("Least squares regression")
 #plt.legend(loc="upper left")
 #
-for i in range(len(y)):
-    x[i] = (5.76*x[i]) + 0.0984
-
-plt.clf()
-plt.scatter(x,y,c = 'k',label = 'Fitted Data')
-plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
-plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
-plt.plot([0,0.5],[-0.041,0.459],'b--')
-plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit) +- 1RMS')
-plt.xlabel('$S_{Expres}$')
-plt.ylabel('$S_{MW}$')
-plt.legend(loc='upper left')
-#plt.gca().set_yscale('log')
-#plt.gca().set_xscale('log')
-plt.plot
-for i in range(len(x)):
-    chis.append(((y[i]-x[i])**2)/x[i])
-    rms.append((y[i]-x[i])**2)
-print('chi squared = ', sum(chis))
-print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
+#for i in range(len(y)):
+#    x[i] = (5.76*x[i]) + 0.0984
+#
+#plt.clf()
+#plt.scatter(x,y,c = 'k',label = 'Fitted Data')
+#plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
+#plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
+#plt.plot([0,0.5],[-0.041,0.459],'b--')
+#plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit) +- 1RMS')
+#plt.xlabel('$S_{Expres}$')
+#plt.ylabel('$S_{MW}$')
+#plt.legend(loc='upper left')
+##plt.gca().set_yscale('log')
+##plt.gca().set_xscale('log')
+#plt.plot
+#for i in range(len(x)):
+#    chis.append(((y[i]-x[i])**2)/x[i])
+#    rms.append((y[i]-x[i])**2)
+#print('chi squared = ', sum(chis))
+#print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 
 #plt.clf()
 #plt.scatter(x,y)

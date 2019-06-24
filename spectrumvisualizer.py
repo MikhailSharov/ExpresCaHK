@@ -18,7 +18,7 @@ the following block extracts and plots the spectrum that was extracted using Rya
 
 
 plt.clf()
-for i in ['141004_180602.1051.fits']:
+for i,j in zip(['101501_190503.1087.fits'],[1.000263, 0.999945, 1.0000631, 1.000467, 1.000357]):
     xrp=[]
     yrp=[]
     image_file = fits.open(i)
@@ -26,6 +26,9 @@ for i in ['141004_180602.1051.fits']:
     image_flux= image_file[0].data.copy()
     image_data =image_file[1].data.copy()
     image_wl = image_data['bary_wavelength']
+    for k in range(len(image_wl)):
+        image_wl[k] = image_wl[k]/j
+        
     image_file.close()
     #print(type(image_wl))
     print(image_wl.shape)
@@ -33,14 +36,14 @@ for i in ['141004_180602.1051.fits']:
     #print(image_header)
     
     for i in range(1000,5000):
-        yrp.append(image_flux[6][i])
+        yrp.append(image_flux[3][i])
         
     #uncomment follwing two lines in order to smooth function
-    box_kernal = Box1DKernel(6)
+    box_kernal = Box1DKernel(3)
     yrp = convolve(yrp, box_kernal)
         
     for i in range(1000,5000):
-        xrp.append(image_wl[6][i])
+        xrp.append(image_wl[3][i])
         
     plt.plot(xrp,yrp)
     #plt.plot(image_data['wavelength'][6],image_data['spectrum'][6]/image_data['continuum'][6])
@@ -51,7 +54,7 @@ the following block extracts and plots the spectrum that was extracted using Lar
 """
 """
 plt.clf()
-for i in ['186408_190524.1127.spec.fits','89744_190317.1073.spec.fits','101501_190518.1122.spec.fits']:
+for i,j in zip(['141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','103095_190503.1088.spec.fits'], ['141004_180602.1050.fits','86728_190210.1119.fits', '101501_190503.1087.fits']):
     xl = []
     yl = []
     trix = []
@@ -59,10 +62,12 @@ for i in ['186408_190524.1127.spec.fits','89744_190317.1073.spec.fits','101501_1
     temp = []
 #    #H Core Line
     limage_file = fits.open(i)
+    image_file = fits.open(j)
     limage_file.info()
+    image_data =image_file[1].data.copy()
     limage_data = limage_file[0].data.copy()
     limage_flux =  limage_data[0,6,:]
-    limage_wl =  limage_data[1,6,:]
+    limage_wl = image_data['bary_wavelength'][6][1:]
     limage_cont =  limage_data[2,6,:]
     
     xl = []
@@ -144,12 +149,13 @@ for i in ['186408_190524.1127.spec.fits','89744_190317.1073.spec.fits','101501_1
 #    
 #    limage_file.close()
 #    #
-    box_kernal = Box1DKernel(5)
+    box_kernal = Box1DKernel(3)
     yl = convolve(yl, box_kernal)
-#    #
-#    #trix = [3991,3991,4011,4011]
-#    #triy = [0,1.2,1.2,0]
-#    #
-    plt.plot(xl, yl)
-#    #plt.plot(trix,triy, c='r')
 """
+#    #
+#trix = [3933.055,3933.6,3934.145]
+#triy = [0,1.2,0]
+#    #
+#plt.plot(xl, yl)
+
+#plt.plot(trix,triy, c='k')
