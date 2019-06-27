@@ -15,10 +15,15 @@ from astropy.convolution import convolve, Box1DKernel
 """
 the following block extracts and plots the spectrum that was extracted using Ryan Petersburg's pipeline
 """
+temp1 = []
 
-
+o = 3
+b = 1
+m = 2000
+n = 5000
 plt.clf()
-for i,j in zip(['101501_190503.1087.fits'],[1.000263, 0.999945, 1.0000631, 1.000467, 1.000357]):
+SNR = []
+for i,j in zip(['141004_180602.1050.fits'],[1.0000631]):
     xrp=[]
     yrp=[]
     image_file = fits.open(i)
@@ -26,6 +31,11 @@ for i,j in zip(['101501_190503.1087.fits'],[1.000263, 0.999945, 1.0000631, 1.000
     image_flux= image_file[0].data.copy()
     image_data =image_file[1].data.copy()
     image_wl = image_data['bary_wavelength']
+    image_un = image_data['uncertainty']
+    image_si = image_data['spectrum']
+    signal = []
+    uncertainty = []
+    
     for k in range(len(image_wl)):
         image_wl[k] = image_wl[k]/j
         
@@ -35,26 +45,33 @@ for i,j in zip(['101501_190503.1087.fits'],[1.000263, 0.999945, 1.0000631, 1.000
     #image_header = image_file[1].header
     #print(image_header)
     
-    for i in range(1000,5000):
-        yrp.append(image_flux[3][i])
+    for k in range(m,n):
+        yrp.append((image_flux[o][k]))
+    temp1.append(yrp)    
         
     #uncomment follwing two lines in order to smooth function
     box_kernal = Box1DKernel(3)
     yrp = convolve(yrp, box_kernal)
         
-    for i in range(1000,5000):
-        xrp.append(image_wl[3][i])
-        
-    plt.plot(xrp,yrp)
+    for k in range(m,n):
+        xrp.append(image_wl[o][k])
+        signal.append(image_si[o][k])
+        uncertainty.append(image_un[o][k])
+#    for k in range(len(xrp)):
+#        if xrp[k] > 3994.89 and xrp[k] < 3994.90:
+#            SNR.append([signal[k]/uncertainty[k], i])
+    plt.plot(xrp,yrp, label = 'RP')
     #plt.plot(image_data['wavelength'][6],image_data['spectrum'][6]/image_data['continuum'][6])
+print(SNR)
 
+#print((np.correlate(temp1[1], temp1[0]))/len(temp1[1]))
 
 """
 the following block extracts and plots the spectrum that was extracted using Lars' repack pipeline
 """
-"""
-plt.clf()
-for i,j in zip(['141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','103095_190503.1088.spec.fits'], ['141004_180602.1050.fits','86728_190210.1119.fits', '101501_190503.1087.fits']):
+
+
+for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1.0000631]):
     xl = []
     yl = []
     trix = []
@@ -66,16 +83,18 @@ for i,j in zip(['141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','10
     limage_file.info()
     image_data =image_file[1].data.copy()
     limage_data = limage_file[0].data.copy()
-    limage_flux =  limage_data[0,6,:]
-    limage_wl = image_data['bary_wavelength'][6][1:]
-    limage_cont =  limage_data[2,6,:]
+    limage_flux =  limage_data[0,o,:]
+    limage_wl = image_data['bary_wavelength'][o][1:]
+    for k in range(len(limage_wl)):
+        limage_wl[k] = limage_wl[k]/l
+    limage_cont =  limage_data[2,o,:]
     
     xl = []
     yl = []
     temp = []
     
-    for i in range(1000, 5000):
-        yl.append(limage_flux[i]/(limage_cont[i]*1000))
+    for i in range(m, n):
+        yl.append((limage_flux[i]/(limage_cont[i]*1000))/b)
         xl.append(limage_wl[i])
     
     
@@ -151,11 +170,11 @@ for i,j in zip(['141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','10
 #    #
     box_kernal = Box1DKernel(3)
     yl = convolve(yl, box_kernal)
-"""
+
 #    #
 #trix = [3933.055,3933.6,3934.145]
 #triy = [0,1.2,0]
 #    #
-#plt.plot(xl, yl)
-
+plt.plot(xl, yl, label = 'Lars')
+plt.legend()
 #plt.plot(trix,triy, c='k')

@@ -11,9 +11,13 @@ import matplotlib.pyplot as plt
 from astropy.convolution import convolve, Box1DKernel
 from scipy import *
 
-larsfiles = ['101501_190503.1087.spec.fits','103095_190503.1088.spec.fits','141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','95128_190210.1126.spec.fits','109358_190210.1158.spec.fits','144579_190427.1085.spec.fits','146233_190427.1090.spec.fits','157214_180625.1150.spec.fits','165341_190506.1112.spec.fits','145675_190515.1111.spec.fits']
-rpexfiles = ['101501_190503.1087.fits','103095_190503.1088.fits','141004_180602.1050.fits','86728_190210.1119.fits','95128_190210.1126.fits','109358_190210.1158.fits','144579_190427.1085.fits','146233_190427.1090.fits','157214_180625.1150.fits','165341_190506.1112.fits','145675_190515.1111.fits']
-adjust = [1.000263,0.999945, 1.0000631, 1.000467, 1.000357, 1.000321, 1.000124, 1.000357, 1.0000353, 1.000280, 1.000245]
+larsfiles = ['101501_190503.1087.spec.fits','103095_190503.1088.spec.fits','141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','95128_190210.1126.spec.fits','109358_190210.1158.spec.fits','144579_190427.1085.spec.fits','146233_190427.1090.spec.fits','157214_180625.1150.spec.fits','165341_190506.1112.spec.fits']
+rpexfiles = ['101501_190503.1087.fits','103095_190503.1088.fits','141004_180602.1050.fits','86728_190210.1119.fits','95128_190210.1126.fits','109358_190210.1158.fits','144579_190427.1085.fits','146233_190427.1090.fits','157214_180625.1150.fits','165341_190506.1112.fits']
+adjust = [1.000263, 0.999945, 1.0000631, 1.000467, 1.000357, 1.000321, 1.000124, 1.000357, 1.0000353, 1.000280]
+H = [0.77066,0.40073,0.32554,0.71436,1.06734,0.61444,0.36296,0.56210,0.65065,0.26976]
+K = [0.33,0.25,0.18,0.45,0.70,0.45,0.22,0.35,0.40,0.12]
+R = [1.20,0.65,0.55,1.10,1.55,0.91,0.60,0.90,1.00,0.50]
+V = [0.37,0.25,0.15,0.35,0.55,0.30,0.20,0.23,0.35,0.12]
 
 avg1 = []
 avg2 = []
@@ -23,7 +27,7 @@ slars = []
 srpex = []
 
 #calculating the s values from Lars Repack and RP Extraction
-for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
+for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     numslars = []
     numsrpex = []
     specimage_file = fits.open(i)
@@ -49,7 +53,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
     tempy = []
 
     for i in range(1000, 6000):
-        yl.append(image_flux[i]/(image_cont[i]*1000)) #general region import
+        yl.append((image_flux[i]/(image_cont[i]*1000))/m) #general region import
         xl.append(image_wl[i])
 
 
@@ -59,6 +63,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
             tempx.append(xl[i])
 
     numslars.append(np.trapz(tempy, tempx))     #trapezoidal integration
+    
     #RP Extraction H Core
     xl = []                                         #array reset
     yl = []
@@ -98,7 +103,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
     tempy = []
 
     for i in range(1000, 6000):
-        yl.append(image_flux[i]/(image_cont[i]*1000))
+        yl.append((image_flux[i]/(image_cont[i]*1000))/n)
         xl.append(image_wl[i])
 
 
@@ -143,7 +148,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
     tempy =[]
 
     for i in range(1000, 6000):
-        yl.append(image_flux[i]/(image_cont[i]*1000))
+        yl.append((image_flux[i]/(image_cont[i]*1000))/o)
         xl.append(image_wl[i])
 
 
@@ -172,7 +177,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
 
     numsrpex.append(np.trapz(tempy, tempx))     #trapezoidal integration
 
-    #V Continuum
+    #V Continuum-------------------------------------------------------------
 
     specimage_data = specimage_file[0].data.copy()    #order import
     waveimage_data = waveimage_file[1].data.copy()
@@ -188,7 +193,7 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
     tempy = []
 
     for i in range(1000, 6000):
-        yl.append(image_flux[i]/(image_cont[i]*1000))
+        yl.append((image_flux[i]/(image_cont[i]*1000))/p)
         xl.append(image_wl[i])
 
 
@@ -225,8 +230,9 @@ for  i,j,k in  zip(larsfiles, rpexfiles, adjust):
     print(numsrpex[0],numsrpex[1],numsrpex[2],numsrpex[3])
     avg3.append(numsrpex[0]/numsrpex[1])
     avg4.append(numsrpex[2]/numsrpex[3])
-    slars.append(((numslars[0]+(numslars[1]*1.374))/(numslars[2]+(numslars[3]*3.198))))
-    srpex.append((numsrpex[0]+(numsrpex[1]*0.725))/(numsrpex[2]+(numsrpex[3]*1.030)))
+    slars.append(((numslars[0]+(numslars[1]*0.8314765868990545))/(numslars[2]+(numslars[3]*0.9973195241290668))))
+    srpex.append((numsrpex[0]+(numsrpex[1]*0.7442569898738605))/(numsrpex[2]+(numsrpex[3]*1.0456810017505291)))
+
 print(np.mean(avg1))
 print(np.mean(avg2))
 print(np.mean(avg3))

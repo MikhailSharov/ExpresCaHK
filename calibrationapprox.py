@@ -18,10 +18,10 @@ import scipy.optimize as opt
 y= []
 x= []
 SNRH= []
-ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343,0.149])
-xs = np.array([0.0169, 0.0156, 0.0113, 0.0087, 0.0075, 0.0086, 0.01227, 0.0080, 0.0088, 0.0341, 0.0112])
-xlars = np.array([0.0096, 0.0095, 0.0103, 0.0063, 0.00538, 0.0067, 0.0091, 0.0074, 0.0068, 0.0165, 0.0119])
-SNRHs = np.array([0.388,0.280,0.229,0.231,0.233,0.321,0.239,0.238,0.309,0.275,0.416,0.445,0.358,0.251,0.298,0.342,0.237,0.358,0.271,0.348,0.274,0.254,0.418,0.668])
+ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343])
+xs = np.array([0.017052047375946518, 0.015691293776586412, 0.011414132218049175, 0.008791832433423815, 0.007568279869929167, 0.008664013843310912, 0.012342677311219519, 0.008040331251846918, 0.008859110750203757, 0.034327122396030224])
+xlars = np.array([0.017950899297413617, 0.016726361121450716, 0.016991618682351294, 0.009574171937129254, 0.008035627070295629, 0.009359736207320281, 0.015464230080939681, 0.01054794834889253, 0.011072023958871123, 0.03164317060605089])
+SNRHs = np.array([0.0170, 0.0157, 0.0114, 0.0088, 0.0076, 0.0087, 0.0123, 0.0080, 0.0089, 0.0343])
 for i in range(len(ys)):
     y.append(ys[i])
     x.append(xs[i])
@@ -46,11 +46,11 @@ def func(x, A, c, d):
 #
 # SURVEY ----------------------------------------------------------------------
 # Plotting Sampling Data
-plt.clf()
+#plt.clf()
 plt.scatter(x, y, c = 'k', label="RP Extraction S-values")
 plt.scatter(xlars, ys, c = 'orange', label = 'Lars Repack S-values')
 ####
-x_lin = np.linspace(0, x.max(), 50)                   # 50 evenly spaced digits between 0 and max
+x_lin = np.linspace(0, xlars.max(), 50)                   # 50 evenly spaced digits between 0 and max
 ###
 ## Trials
 #A, c, d = 20,-0.12,0.12
@@ -65,7 +65,7 @@ plt.legend()
 ##
 ## REGRESSION ------------------------------------------------------------------
 #p0 = [20, -0.120, 0.12]                                        # guessed params
-#w, _ = opt.curve_fit(func, x, y, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
+#w, _ = opt.curve_fit(func, xlars, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
 #print("Estimated Parameters", w)  
 ##
 ## Model
@@ -74,29 +74,29 @@ plt.legend()
 ## PLOT ------------------------------------------------------------------------
 ## Visualize data and fitted curves
 #plt.clf()
-#plt.plot(x, y, "ko", label="Data")
+#plt.plot(xlars, ys, "ko", label="Data")
 #plt.plot(x_lin, y_model, "k--", label="Fit")
 #plt.title("Least squares regression")
 #plt.legend(loc="upper left")
 #
 #for i in range(len(y)):
-#    x[i] = (5.76*x[i]) + 0.0984
-#
+#    xlars[i] = (16.044*xlars[i]) + 0.05659
+##
 #plt.clf()
-#plt.scatter(x,y,c = 'k',label = 'Fitted Data')
+#plt.scatter(xlars,ys,c = 'k',label = 'Fitted Data')
 #plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
-#plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
-#plt.plot([0,0.5],[-0.041,0.459],'b--')
-#plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit) +- 1RMS')
+##plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
+##plt.plot([0,0.5],[-0.041,0.459],'b--')
+#plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit)')
 #plt.xlabel('$S_{Expres}$')
 #plt.ylabel('$S_{MW}$')
 #plt.legend(loc='upper left')
 ##plt.gca().set_yscale('log')
 ##plt.gca().set_xscale('log')
 #plt.plot
-#for i in range(len(x)):
-#    chis.append(((y[i]-x[i])**2)/x[i])
-#    rms.append((y[i]-x[i])**2)
+#for i in range(len(xlars)):
+#    chis.append(((ys[i]-xlars[i])**2)/xlars[i])
+#    rms.append((ys[i]-xlars[i])**2)
 #print('chi squared = ', sum(chis))
 #print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 
