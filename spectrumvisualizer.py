@@ -17,7 +17,7 @@ the following block extracts and plots the spectrum that was extracted using Rya
 """
 temp1 = []
 
-o = 3
+o = 7
 b = 1
 m = 2000
 n = 5000

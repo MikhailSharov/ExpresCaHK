@@ -20,10 +20,10 @@ adjust = [1.000263, 0.999945, 1.0000631, 1.000467, 1.000357, 1.000321, 1.000124,
 
 
 
-b = 0.26976
+b = 0.13843
 
 for  i,j,o in  zip(larsfiles, rpexfiles, adjust):
-    for l,m,n in zip([6],[1600],[4000]):
+    for l,m,n in zip([3],[2000],[5000]):
         xrp=[]
         yrp=[]
         image_file = fits.open(j)
