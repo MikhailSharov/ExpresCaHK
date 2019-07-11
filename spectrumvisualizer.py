@@ -11,19 +11,19 @@ from astropy import units as u
 from astropy.io import fits
 import matplotlib.pyplot as plt
 from astropy.convolution import convolve, Box1DKernel
-
+plt.rcParams.update({'font.size': 12})
 """
 the following block extracts and plots the spectrum that was extracted using Ryan Petersburg's pipeline
 """
 temp1 = []
 
-o = 7
+o = 3
 b = 1
-m = 2000
-n = 5000
+m = 1000
+n = 5100
 plt.clf()
 SNR = []
-for i,j in zip(['141004_180602.1050.fits'],[1.0000631]):
+for i,j in zip(['101501_190503.1087.fits'],[1.000263]):
     xrp=[]
     yrp=[]
     image_file = fits.open(i)
@@ -50,7 +50,7 @@ for i,j in zip(['141004_180602.1050.fits'],[1.0000631]):
     temp1.append(yrp)    
         
     #uncomment follwing two lines in order to smooth function
-    box_kernal = Box1DKernel(3)
+    box_kernal = Box1DKernel(2)
     yrp = convolve(yrp, box_kernal)
         
     for k in range(m,n):
@@ -60,9 +60,8 @@ for i,j in zip(['141004_180602.1050.fits'],[1.0000631]):
 #    for k in range(len(xrp)):
 #        if xrp[k] > 3994.89 and xrp[k] < 3994.90:
 #            SNR.append([signal[k]/uncertainty[k], i])
-    plt.plot(xrp,yrp, label = 'RP')
+    plt.plot(xrp,yrp, c = 'k', label = 'RP')
     #plt.plot(image_data['wavelength'][6],image_data['spectrum'][6]/image_data['continuum'][6])
-print(SNR)
 
 #print((np.correlate(temp1[1], temp1[0]))/len(temp1[1]))
 
@@ -70,7 +69,7 @@ print(SNR)
 the following block extracts and plots the spectrum that was extracted using Lars' repack pipeline
 """
 
-
+"""
 for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1.0000631]):
     xl = []
     yl = []
@@ -170,11 +169,11 @@ for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1
 #    #
     box_kernal = Box1DKernel(3)
     yl = convolve(yl, box_kernal)
-
+"""
 #    #
-#trix = [3933.055,3933.6,3934.145]
-#triy = [0,1.2,0]
+trix = [3891, 3891, 3911, 3911]
+triy = [0, 1.4, 1.4, 0]
 #    #
-plt.plot(xl, yl, label = 'Lars')
-plt.legend()
-#plt.plot(trix,triy, c='k')
+#plt.plot(xl, yl, label = 'Lars')
+#plt.legend()
+plt.plot(trix,triy, c='red')

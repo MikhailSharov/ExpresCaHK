@@ -15,12 +15,14 @@ from scipy.optimize import leastsq
 from math import *
 import scipy.optimize as opt
 
+plt.rcParams.update({'font.size': 12})
+
 y= []
 x= []
 SNRH= []
 ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343])
-xs = np.array([0.017052047375946518, 0.015691293776586412, 0.011414132218049175, 0.008791832433423815, 0.007568279869929167, 0.008664013843310912, 0.012342677311219519, 0.008040331251846918, 0.008859110750203757, 0.034327122396030224])
-xlars = np.array([0.01571412178042996, 0.015751279344827885, 0.017158922685256046, 0.009972421016524008, 0.008091200736652805, 0.010067047835238927, 0.01573007923199933, 0.011716754433566071, 0.010668254440879456, 0.030365091398772172])
+xs = np.array([0.031753941997664556, 0.02962062896181317, 0.025835582783012376, 0.02056515438317584, 0.019247908546459698, 0.02147274290723572, 0.027782226034097503, 0.02120407722984877, 0.020994957078146703, 0.05400447903383693])
+xlars = np.array([0.030307364140276804, 0.03182197152813854, 0.03685367716229007, 0.02250276829710482, 0.01950520989659399, 0.02333987182394748, 0.03361299259751715, 0.0264265051297938, 0.023800457727525298, 0.05340623284517232])
 SNRHs = np.array([0.0170, 0.0157, 0.0114, 0.0088, 0.0076, 0.0087, 0.0123, 0.0080, 0.0089, 0.0343])
 for i in range(len(ys)):
     y.append(ys[i])
@@ -46,11 +48,11 @@ def func(x, A, c, d):
 #
 # SURVEY ----------------------------------------------------------------------
 # Plotting Sampling Data
-#plt.clf()
+plt.clf()
 plt.scatter(x, y, c = 'k', label="RP Extraction S-values")
 plt.scatter(xlars, ys, c = 'orange', label = 'Lars Repack S-values')
 ####
-x_lin = np.linspace(0, xlars.max(), 50)                   # 50 evenly spaced digits between 0 and max
+x_lin = np.linspace(0, xs.max(), 50)                   # 50 evenly spaced digits between 0 and max
 ###
 ## Trials
 #A, c, d = 20,-0.12,0.12
@@ -61,11 +63,11 @@ x_lin = np.linspace(0, xlars.max(), 50)                   # 50 evenly spaced dig
 #plt.plot(x_lin, y_trial1, "--", label="Trial 1")
 ####plt.plot(x_lin, y_trial2, "--", label="Trial 2")
 ####plt.plot(x_lin, y_trial3, "--", label="Trial 3")
-plt.legend()
+#plt.legend()
 ##
-## REGRESSION ------------------------------------------------------------------
+# REGRESSION ------------------------------------------------------------------
 #p0 = [20, -0.120, 0.12]                                        # guessed params
-#w, _ = opt.curve_fit(func, xlars, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
+#w, _ = opt.curve_fit(func, xs, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
 #print("Estimated Parameters", w)  
 ##
 ## Model
@@ -74,29 +76,29 @@ plt.legend()
 ## PLOT ------------------------------------------------------------------------
 ## Visualize data and fitted curves
 #plt.clf()
-#plt.plot(xlars, ys, "ko", label="Data")
+#plt.plot(xs, ys, "ko", label="Data")
 #plt.plot(x_lin, y_model, "k--", label="Fit")
 #plt.title("Least squares regression")
-#plt.legend(loc="upper left")
-#
+plt.legend(loc="upper left")
+
 #for i in range(len(y)):
-#    xlars[i] = (16.044*xlars[i]) + 0.05659
+#    xs[i] = (5.528*xs[i]) + 0.0465
 ##
 #plt.clf()
-#plt.scatter(xlars,ys,c = 'k',label = 'Fitted Data')
-#plt.plot([0,0.5],[0,0.5],'k--',label='x=y')
+#plt.scatter(xs,ys,c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
+#plt.plot([0,0.5],[0,0.5],'k--',label='Ideal $S_{MW} = S_{EXPRES}$ Fitting')
 ##plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
 ##plt.plot([0,0.5],[-0.041,0.459],'b--')
-#plt.title('$S_{Expres}$ Fitted With Least Squares (Linear Fit)')
-#plt.xlabel('$S_{Expres}$')
+#plt.title('$S_{EXPRES}$ Calibrated to $S_{MW}$')
+#plt.xlabel('$S_{EXPRES}$')
 #plt.ylabel('$S_{MW}$')
 #plt.legend(loc='upper left')
 ##plt.gca().set_yscale('log')
 ##plt.gca().set_xscale('log')
 #plt.plot
 #for i in range(len(xlars)):
-#    chis.append(((ys[i]-xlars[i])**2)/xlars[i])
-#    rms.append((ys[i]-xlars[i])**2)
+#    chis.append(((ys[i]-xs[i])**2)/xs[i])
+#    rms.append((ys[i]-xs[i])**2)
 #print('chi squared = ', sum(chis))
 #print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 
