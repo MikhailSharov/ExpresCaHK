@@ -17,13 +17,13 @@ the following block extracts and plots the spectrum that was extracted using Rya
 """
 temp1 = []
 
-o = 3
+o = 4
 b = 1
 m = 1000
 n = 5100
 plt.clf()
 SNR = []
-for i,j in zip(['101501_190503.1087.fits'],[1.000263]):
+for i,j in zip(['101501_190503.1087.fits'],[0.999983]):
     xrp=[]
     yrp=[]
     image_file = fits.open(i)
@@ -171,8 +171,8 @@ for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1
     yl = convolve(yl, box_kernal)
 """
 #    #
-trix = [3891, 3891, 3911, 3911]
-triy = [0, 1.4, 1.4, 0]
+trix = [3933.61, 3934.7, 3935.79]
+triy = [0, 1.4, 0]
 #    #
 #plt.plot(xl, yl, label = 'Lars')
 #plt.legend()

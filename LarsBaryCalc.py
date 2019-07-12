@@ -58,20 +58,21 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
 
 
     for i in range(len(xl)):
-        if xl[i] < 3969.59 and xl[i] > 3967.41:   #specific region definition
-            if xl[i] < 3968.5:
-                if yl[i] > (140/109)*xl[i] - (2777187/545):
-                    yl[i] = (140/109)*xl[i] - (2777187/545)
-                else:
-                    yl[i] = yl[i]
-            if xl[i] >= 3968.5:
-                if yl[i] > (-140/109)*xl[i] + (2778713/545):
-                    yl[i] = (-140/109)*xl[i] + (2778713/545)
-                else:
-                    yl[i] = yl[i] 
-                    
-            tempy.append(yl[i])
-            tempx.append(xl[i])
+        for i in range(len(xl)):
+            if xl[i] < 3970.69 and xl[i] > 3968.51:   #specific region definition
+                if xl[i] < 3969.6:
+                    if yl[i] > (140/109)*xl[i] - (2777187/545):
+                        yl[i] = (140/109)*xl[i] - (2777187/545)
+                    else:
+                        yl[i] = yl[i]
+                if xl[i] >= 3969.6:
+                    if yl[i] > (-140/109)*xl[i] + (2778713/545):
+                        yl[i] = (-140/109)*xl[i] + (2778713/545)
+                    else:
+                        yl[i] = yl[i] 
+                        
+                tempy.append(yl[i])
+                tempx.append(xl[i])
 
     numslars.append(np.trapz(tempy, tempx))     #trapezoidal integration
     
@@ -130,13 +131,13 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
 
 
     for i in range(len(xl)):
-        if xl[i] < 3934.69 and xl[i] > 3932.51:
-            if xl[i] < 3933.6:
+        if xl[i] < 3935.79 and xl[i] > 3933.61:
+            if xl[i] < 3934.7:
                 if yl[i] > (140/109)*xl[i] - (2752757/545):
                     yl[i] = (140/109)*xl[i] - (2752757/545)
                 else:
                     yl[i] = yl[i]
-            if xl[i] >= 3933.6:
+            if xl[i] >= 3934.7:
                 if yl[i] > (-140/109)*xl[i] + (2754283/545):
                     yl[i] = (-140/109)*xl[i] + (2754283/545)
                 else:
@@ -158,13 +159,13 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     for l in range(len(xl)):
             xl[l] = xl[l]/k
     for i in range(len(xl)):
-        if xl[i] < 3934.69 and xl[i] > 3932.51:   #specific region definition
-            if xl[i] < 3933.6:
+        if xl[i] < 3935.79 and xl[i] > 3933.61:
+            if xl[i] < 3934.7:
                 if yl[i] > (140/109)*xl[i] - (2752757/545):
                     yl[i] = (140/109)*xl[i] - (2752757/545)
                 else:
                     yl[i] = yl[i]
-            if xl[i] >= 3933.6:
+            if xl[i] >= 3934.7:
                 if yl[i] > (-140/109)*xl[i] + (2754283/545):
                     yl[i] = (-140/109)*xl[i] + (2754283/545)
                 else:
