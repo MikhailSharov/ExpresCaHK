@@ -13,7 +13,7 @@ from scipy import *
 
 larsfiles = ['101501_190503.1087.spec.fits','103095_190503.1088.spec.fits','141004_180602.1050.spec.fits','86728_190210.1119.spec.fits','95128_190210.1126.spec.fits','109358_190210.1158.spec.fits','144579_190427.1085.spec.fits','146233_190427.1090.spec.fits','157214_180625.1150.spec.fits','165341_190506.1112.spec.fits']
 rpexfiles = ['101501_190503.1087.fits','103095_190503.1088.fits','141004_180602.1050.fits','86728_190210.1119.fits','95128_190210.1126.fits','109358_190210.1158.fits','144579_190427.1085.fits','146233_190427.1090.fits','157214_180625.1150.fits','165341_190506.1112.fits']
-adjust = [1.000263, 0.999945, 1.0000631, 1.000467, 1.000357, 1.000321, 1.000124, 1.000357, 1.0000353, 1.000280]
+adjust = [0.999983, 0.999671, 0.999784, 1.000019, 1.000038, 1.000321, 1.000027, 0.999801, 1.000042, 0.999986]
 H = [0.77066,0.40073,0.32554,0.71436,1.06734,0.61444,0.36296,0.56210,0.65065,0.26976]
 K = [0.36544,0.20643,0.16917,0.36433,0.58846,0.34679,0.18579,0.26511,0.36165,0.12475]
 R = [1.20782,0.64610,0.55024,1.09828,1.54777,0.91930,0.59523,0.90916,0.99681,0.51338]
@@ -56,23 +56,21 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
         yl.append((image_flux[i]/(image_cont[i]*1000))/m) #general region import
         xl.append(image_wl[i])
 
-
     for i in range(len(xl)):
-        for i in range(len(xl)):
-            if xl[i] < 3970.69 and xl[i] > 3968.51:   #specific region definition
-                if xl[i] < 3969.6:
-                    if yl[i] > (140/109)*xl[i] - (2777187/545):
-                        yl[i] = (140/109)*xl[i] - (2777187/545)
-                    else:
-                        yl[i] = yl[i]
-                if xl[i] >= 3969.6:
-                    if yl[i] > (-140/109)*xl[i] + (2778713/545):
-                        yl[i] = (-140/109)*xl[i] + (2778713/545)
-                    else:
-                        yl[i] = yl[i] 
-                        
-                tempy.append(yl[i])
-                tempx.append(xl[i])
+        if xl[i] < 3970.69 and xl[i] > 3968.51:   #specific region definition
+            if xl[i] < 3969.6:
+                if yl[i] > (1.28440)*xl[i] - (5097.16880):
+                    yl[i] = (1.28440)*xl[i] - (5097.16880)
+                else:
+                    yl[i] = yl[i]
+            if xl[i] >= 3969.6:
+                if yl[i] > (-1.28440)*xl[i] + (5099.96880):
+                    yl[i] = (-1.28440)*xl[i] + (5099.96880)
+                else:
+                    yl[i] = yl[i] 
+                    
+            tempy.append(yl[i])
+            tempx.append(xl[i])
 
     numslars.append(np.trapz(tempy, tempx))     #trapezoidal integration
     
@@ -95,13 +93,13 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     for i in range(len(xl)):
         if xl[i] < 3970.69 and xl[i] > 3968.51:   #specific region definition
             if xl[i] < 3969.6:
-                if yl[i] > (140/109)*xl[i] - (2777187/545):
-                    yl[i] = (140/109)*xl[i] - (2777187/545)
+                if yl[i] > (1.28440)*xl[i] - (5097.16880):
+                    yl[i] = (1.28440)*xl[i] - (5097.16880)
                 else:
                     yl[i] = yl[i]
             if xl[i] >= 3969.6:
-                if yl[i] > (-140/109)*xl[i] + (2778713/545):
-                    yl[i] = (-140/109)*xl[i] + (2778713/545)
+                if yl[i] > (-1.28440)*xl[i] + (5099.96880):
+                    yl[i] = (-1.28440)*xl[i] + (5099.96880)
                 else:
                     yl[i] = yl[i] 
                     
@@ -133,13 +131,13 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     for i in range(len(xl)):
         if xl[i] < 3935.79 and xl[i] > 3933.61:
             if xl[i] < 3934.7:
-                if yl[i] > (140/109)*xl[i] - (2752757/545):
-                    yl[i] = (140/109)*xl[i] - (2752757/545)
+                if yl[i] > (1.28440)*xl[i] - (5052.34311):
+                    yl[i] = (1.28440)*xl[i] - (5052.34311)
                 else:
                     yl[i] = yl[i]
             if xl[i] >= 3934.7:
-                if yl[i] > (-140/109)*xl[i] + (2754283/545):
-                    yl[i] = (-140/109)*xl[i] + (2754283/545)
+                if yl[i] > (-1.28440)*xl[i] + (5055.14311):
+                    yl[i] = (-1.28440)*xl[i] + (5055.14311)
                 else:
                     yl[i] = yl[i]
             tempy.append(yl[i])
@@ -161,13 +159,13 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     for i in range(len(xl)):
         if xl[i] < 3935.79 and xl[i] > 3933.61:
             if xl[i] < 3934.7:
-                if yl[i] > (140/109)*xl[i] - (2752757/545):
-                    yl[i] = (140/109)*xl[i] - (2752757/545)
+                if yl[i] > (1.28440)*xl[i] - (5052.34311):
+                    yl[i] = (1.28440)*xl[i] - (5052.34311)
                 else:
                     yl[i] = yl[i]
             if xl[i] >= 3934.7:
-                if yl[i] > (-140/109)*xl[i] + (2754283/545):
-                    yl[i] = (-140/109)*xl[i] + (2754283/545)
+                if yl[i] > (-1.28440)*xl[i] + (5055.14311):
+                    yl[i] = (-1.28440)*xl[i] + (5055.14311)
                 else:
                     yl[i] = yl[i]
             tempy.append(yl[i])
@@ -273,8 +271,8 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
     print(numsrpex[0],numsrpex[1],numsrpex[2],numsrpex[3])
     avg3.append(numsrpex[0]/numsrpex[1])
     avg4.append(numsrpex[2]/numsrpex[3])
-    slars.append(((numslars[0]+(numslars[1]*0.7391825238021721))/(numslars[2]+(numslars[3]*1.047854372471837))))
-    srpex.append((numsrpex[0]+(numsrpex[1]*0.7452074919030602))/(numsrpex[2]+(numsrpex[3]*1.0456810017505291)))
+    slars.append(((numslars[0]+(numslars[1]*0.7663168891068424))/(numslars[2]+(numslars[3]*1.052049758691577))))
+    srpex.append((numsrpex[0]+(numsrpex[1]*0.795690677293081))/(numsrpex[2]+(numsrpex[3]*1.0499143494669443)))
 
 print(np.mean(avg1))
 print(np.mean(avg2))

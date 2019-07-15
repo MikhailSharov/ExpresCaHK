@@ -171,7 +171,7 @@ for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1
     yl = convolve(yl, box_kernal)
 """
 #    #
-trix = [3933.61, 3934.7, 3935.79]
+trix = [3933.61, 3969.9, 3970.69]
 triy = [0, 1.4, 0]
 #    #
 #plt.plot(xl, yl, label = 'Lars')
