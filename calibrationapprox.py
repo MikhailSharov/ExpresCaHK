@@ -49,9 +49,9 @@ def func(x, A, c, d):
 # SURVEY ----------------------------------------------------------------------
 # Plotting Sampling Data
 plt.clf()
-plt.scatter(x, y, c = 'k', label="RP Extraction S-values")
-plt.scatter(xlars, ys, c = 'orange', label = 'Lars Repack S-values')
-####
+#plt.scatter(x, y, c = 'k', label = "RP Extraction S-values")
+#plt.scatter(xlars, ys, c = 'orange', label = 'Lars Repack S-values')
+#####
 x_lin = np.linspace(0, xs.max(), 50)                   # 50 evenly spaced digits between 0 and max
 ###
 ## Trials
@@ -65,7 +65,7 @@ x_lin = np.linspace(0, xs.max(), 50)                   # 50 evenly spaced digits
 ####plt.plot(x_lin, y_trial3, "--", label="Trial 3")
 #plt.legend()
 ##
-# REGRESSION ------------------------------------------------------------------
+#REGRESSION ------------------------------------------------------------------
 #p0 = [20, -0.120, 0.12]                                        # guessed params
 #w, _ = opt.curve_fit(func, xs, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
 #print("Estimated Parameters", w)  
@@ -79,28 +79,28 @@ x_lin = np.linspace(0, xs.max(), 50)                   # 50 evenly spaced digits
 #plt.plot(xs, ys, "ko", label="Data")
 #plt.plot(x_lin, y_model, "k--", label="Fit")
 #plt.title("Least squares regression")
-plt.legend(loc="upper left")
+#plt.legend(loc="upper left")
 
-#for i in range(len(y)):
-#    xs[i] = (5.528*xs[i]) + 0.0465
-##
-#plt.clf()
-#plt.scatter(xs,ys,c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
-#plt.plot([0,0.5],[0,0.5],'k--',label='Ideal $S_{MW} = S_{EXPRES}$ Fitting')
-##plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
-##plt.plot([0,0.5],[-0.041,0.459],'b--')
-#plt.title('$S_{EXPRES}$ Calibrated to $S_{MW}$')
-#plt.xlabel('$S_{EXPRES}$')
-#plt.ylabel('$S_{MW}$')
-#plt.legend(loc='upper left')
-##plt.gca().set_yscale('log')
-##plt.gca().set_xscale('log')
-#plt.plot
-#for i in range(len(xlars)):
-#    chis.append(((ys[i]-xs[i])**2)/xs[i])
-#    rms.append((ys[i]-xs[i])**2)
-#print('chi squared = ', sum(chis))
-#print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
+for i in range(len(y)):
+    xs[i] = (7.9516*xs[i]) -0.01234
+#
+plt.clf()
+plt.scatter(xs,ys,c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
+plt.plot([0,0.5],[0,0.5],'k--',label='Ideal $S_{MW} = S_{EXPRES}$ Fitting')
+#plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
+#plt.plot([0,0.5],[-0.041,0.459],'b--')
+plt.title('$S_{EXPRES}$ Calibrated to $S_{MW}$')
+plt.xlabel('$S_{EXPRES}$')
+plt.ylabel('$S_{MW}$')
+plt.legend(loc='upper left')
+#plt.gca().set_yscale('log')
+#plt.gca().set_xscale('log')
+plt.plot
+for i in range(len(xlars)):
+    chis.append(((ys[i]-xs[i])**2)/xs[i])
+    rms.append((ys[i]-xs[i])**2)
+print('chi squared = ', sum(chis))
+print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 
 #plt.clf()
 #plt.scatter(x,y)
