@@ -107,7 +107,7 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
             tempx.append(xl[i])
 
     numsrpex.append(np.trapz(tempy, tempx))     #trapezoidal integration
-   
+    """   
     #K Core Line---------------------------------------------------------------
 
     specimage_data = specimage_file[0].data.copy()    #order import
@@ -172,7 +172,7 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
             tempx.append(xl[i])
 
     numsrpex.append(np.trapz(tempy, tempx))     #trapezoidal integration
-
+    """
     #R continuum------------------------------------------------------------------
 
     specimage_data = specimage_file[0].data.copy()    #order import
@@ -217,7 +217,7 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
             tempx.append(xl[i])
 
     numsrpex.append(np.trapz(tempy, tempx))     #trapezoidal integration
-
+    """
     #V Continuum-------------------------------------------------------------
 
     specimage_data = specimage_file[0].data.copy()    #order import
@@ -262,21 +262,14 @@ for  i,j,k,m,n,o,p in  zip(larsfiles, rpexfiles, adjust, H, K, R, V):
             tempx.append(xl[i])
 
     numsrpex.append(np.trapz(tempy, tempx))     #trapezoidal integration
-
+    """
     specimage_file.close()
 
-    print(numslars[0],numslars[1],numslars[2],numslars[3])
-    avg1.append(numslars[0]/numslars[1])
-    avg2.append(numslars[2]/numslars[3])
-    print(numsrpex[0],numsrpex[1],numsrpex[2],numsrpex[3])
-    avg3.append(numsrpex[0]/numsrpex[1])
-    avg4.append(numsrpex[2]/numsrpex[3])
-    slars.append(((numslars[0]+(numslars[1]*0.76632))/(numslars[2]+(numslars[3]*1.05205))))
-    srpex.append((numsrpex[0]+(numsrpex[1]*0.79569))/(numsrpex[2]+(numsrpex[3]*1.04991)))
+    print(numslars[0],numslars[1])
+    print(numsrpex[0],numsrpex[1])
+    slars.append(numslars[0]/(numslars[1]))
+    srpex.append(numsrpex[0]/(numsrpex[1]))
 
-print(np.mean(avg1))
-print(np.mean(avg2))
-print(np.mean(avg3))
-print(np.mean(avg4))
+
 print(slars)
 print(srpex)
