@@ -17,13 +17,16 @@ the following block extracts and plots the spectrum that was extracted using Rya
 """
 temp1 = []
 
-o = 4
+o = 42
 b = 1
 m = 1000
 n = 5100
 plt.clf()
 SNR = []
-for i,j in zip(['101501_190503.1087.fits'],[0.999983]):
+for i,j in zip(['101501_190503.1087.fits'],[1]):
+    tempx = []
+    temptempy = []
+    tempy = []
     xrp=[]
     yrp=[]
     image_file = fits.open(i)
@@ -46,20 +49,30 @@ for i,j in zip(['101501_190503.1087.fits'],[0.999983]):
     #print(image_header)
     
     for k in range(m,n):
-        yrp.append((image_flux[o][k]))
+        yrp.append((image_si[o][k]))
     temp1.append(yrp)    
         
     #uncomment follwing two lines in order to smooth function
     box_kernal = Box1DKernel(2)
     yrp = convolve(yrp, box_kernal)
-        
+       
     for k in range(m,n):
         xrp.append(image_wl[o][k])
         signal.append(image_si[o][k])
         uncertainty.append(image_un[o][k])
-#    for k in range(len(xrp)):
-#        if xrp[k] > 3994.89 and xrp[k] < 3994.90:
-#            SNR.append([signal[k]/uncertainty[k], i])
+    """
+    for k in range(len(xrp)):
+        if xrp[k] < 4011 and xrp[k] > 3991:
+            tempy.append(signal[k])
+            tempx.append(uncertainty[k])
+    tempy.sort(reverse = True)
+    for i in range(0,100):
+        temptempy.append(tempy[i])
+    z = np.mean(np.asarray(temptempy))
+    r = np.mean(np.asarray(tempx))
+    print(z/r)
+    """
+    
     plt.plot(xrp,yrp, c = 'k', label = 'RP')
     #plt.plot(image_data['wavelength'][6],image_data['spectrum'][6]/image_data['continuum'][6])
 
@@ -171,9 +184,9 @@ for i,j,l in zip(['141004_180602.1050.spec.fits'],['141004_180602.1050.fits'],[1
     yl = convolve(yl, box_kernal)
 """
 #    #
-trix = [3933.61, 3934.7, 3935.79]
-triy = [0, 1.4, 0]
+#trix = [3933.61, 3934.7, 3935.79]
+#triy = [0, 1.4, 0]
 #    #
 #plt.plot(xl, yl, label = 'Lars')
 #plt.legend()
-plt.plot(trix,triy, c='red')
+#plt.plot(trix,triy, c='red')

@@ -85,7 +85,7 @@ for i in range(len(y)):
     xs[i] = (7.9516*xs[i]) - 0.012345
 #
 plt.clf()
-plt.scatter(xs,ys,c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
+plt.errorbar(xs,ys,yerr =  0.011756723596672092 ,fmt='.k',c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
 plt.plot([0,0.5],[0,0.5],'k--',label='Ideal $S_{MW} = S_{EXPRES}$ Fitting')
 #plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
 #plt.plot([0,0.5],[-0.041,0.459],'b--')
@@ -93,14 +93,18 @@ plt.title('$S_{EXPRES}$ Calibrated to $S_{MW}$')
 plt.xlabel('$S_{EXPRES}$')
 plt.ylabel('$S_{MW}$')
 plt.legend(loc='upper left')
+
 #plt.gca().set_yscale('log')
 #plt.gca().set_xscale('log')
 plt.plot
+inrms = []
 for i in range(len(xlars)):
     chis.append(((ys[i]-xs[i])**2)/xs[i])
     rms.append((ys[i]-xs[i])**2)
+    inrms.append((ys[i]-xs[i])**2)
 print('chi squared = ', sum(chis))
 print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
+print('individual rms = ', str(inrms))
 
 #plt.clf()
 #plt.scatter(x,y)
