@@ -21,7 +21,7 @@ y= []
 x= []
 SNRH= []
 ys = np.array([0.287,0.188,0.155,0.156,0.172,0.177,0.163,0.174,0.156,0.343])
-xs = np.array([0.029290253074658254, 0.026510399642997687, 0.01986199280162308, 0.022154307248006225, 0.01757207656802939, 0.02580827203675054, 0.028057073466126032, 0.025957740075144106, 0.025526183070406404, 0.04266230441907302])
+xs = np.array([0.0356785036274469, 0.032302863612015856, 0.024090666932986383, 0.022939207225435156, 0.020977314023983167, 0.022522670286085806, 0.02785240456776673, 0.02187246618090902, 0.022021483401782813, 0.052245027605800014])
 xlars = np.array([0.027959687472712963, 0.028663114026350127, 0.03211901011534757, 0.023552262017514553, 0.017921235154477858, 0.026295912379826137, 0.032431433160005366, 0.02817184402636767, 0.025951360005248177, 0.04692072661355326])
 SNRHs = np.array([0.0170, 0.0157, 0.0114, 0.0088, 0.0076, 0.0087, 0.0123, 0.0080, 0.0089, 0.0343])
 for i in range(len(ys)):
@@ -40,7 +40,7 @@ SNRV = np.array([2.214,1.211,0.930,0.900,0.912,1.888,1.053,0.984,1.741,1.087,2.2
 #rpsigp = np.array([3.6,0.575,0.013,0.08,2.47,0.27,0.36,1.402,0.302,2.62,3.46,2.48,0.584,2.268,1.915,3.12,0.9])
 chis = []
 rms = []
-##GENERAL EQUATION ------------------------------------------------------------
+#GENERAL FITTING EQUATION
 def func(x, A, c, d):
 #    return A*np.exp(c*x) + d
 #    return (A*((x-c)**2))+d
@@ -65,24 +65,24 @@ x_lin = np.linspace(0, xs.max(), 50)                   # 50 evenly spaced digits
 ####plt.plot(x_lin, y_trial3, "--", label="Trial 3")
 #plt.legend()
 ##
-##REGRESSION ------------------------------------------------------------------
-#p0 = [20, -0.120, 0.12]                                        # guessed params
-#w, _ = opt.curve_fit(func, xs, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
-#print("Estimated Parameters", w)  
+#REGRESSION ------------------------------------------------------------------
+p0 = [20, -0.120, 0.12]                                        # guessed params
+w, _ = opt.curve_fit(func, xs, ys, p0=p0, bounds=([-np.inf,-np.inf,-np.inf], [np.inf,np.inf,0.12]), maxfev = 1000000000)     
+print("Estimated Parameters", w)  
+#
+# Model
+y_model = func(x_lin, *w)
 ##
-## Model
-#y_model = func(x_lin, *w)
-###
-## PLOT ------------------------------------------------------------------------
-## Visualize data and fitted curves
-#plt.clf()
-#plt.plot(xs, ys, "ko", label="Data")
-#plt.plot(x_lin, y_model, "k--", label="Fit")
-#plt.title("Least squares regression")
-#plt.legend(loc="upper left")
+# PLOT ------------------------------------------------------------------------
+# Visualize data and fitted curves
+plt.clf()
+plt.plot(xs, ys, "ko", label="Data")
+plt.plot(x_lin, y_model, "k--", label="Fit")
+plt.title("Least squares regression")
+plt.legend(loc="upper left")
 
 for i in range(len(y)):
-    xs[i] = (7.9516*xs[i]) - 0.012345
+    xs[i] = (6.10545824*xs[i]) + 0.02461921
 #
 plt.clf()
 plt.errorbar(xs,ys,yerr =  0.011756723596672092 ,fmt='.k',c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')

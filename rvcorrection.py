@@ -17,7 +17,7 @@ from math import *
 import scipy.optimize as opt
 
 #IMPORTING FILES----------------------------------------------------------------------------------------
-expresfiles = ['109358_190210.1158.fits']
+expresfiles = ['101501_190503.1087.fits','103095_190503.1088.fits','141004_180602.1050.fits','86728_190210.1119.fits','95128_190210.1126.fits','109358_190210.1158.fits','144579_190427.1085.fits','146233_190427.1090.fits','157214_180625.1150.fits','165341_190506.1112.fits']
 nsofile = 'NSOspec.csv'
 
 returns = []
@@ -31,7 +31,7 @@ def near_index(arr, num):
     return index
 
 #MAIN------------------------------------------------------------------------------------------------
-
+adjust = []
 def fun(x):
     temp = []
     expressx = expresx.copy()
@@ -72,8 +72,8 @@ for i in range(len(expresfiles)):
     for j in np.arange(0.999,1.0005,0.000001):
         xtemp.append(j)
         ytemp.append(fun(j))
-    print(xtemp[ytemp.argmin()])
-
+    adjust.append(xtemp[np.asarray(ytemp).argmin()])
+print(adjust)
 plt.clf()
 #plt.plot(expresx,expresy,label = 'expres RV Corrected')
 #plt.plot(nsox, nsoy, label = 'NSO')
