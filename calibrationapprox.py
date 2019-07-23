@@ -85,7 +85,7 @@ for i in range(len(y)):
     xs[i] = (6.10545824*xs[i]) + 0.02461921
 #
 plt.clf()
-plt.errorbar(xs,ys,yerr =  0.011756723596672092 ,fmt='.k',c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
+plt.errorbar(xs,ys,xerr =  0.008170406949996212 ,fmt='.k',c = 'k',label = 'Calibrated $S_{EXPRES}$ Data')
 plt.plot([0,0.5],[0,0.5],'k--',label='Ideal $S_{MW} = S_{EXPRES}$ Fitting')
 #plt.plot([0,0.5],[0.041,0.541],'b--',label='rms')
 #plt.plot([0,0.5],[-0.041,0.459],'b--')
@@ -101,7 +101,7 @@ inrms = []
 for i in range(len(xlars)):
     chis.append(((ys[i]-xs[i])**2)/xs[i])
     rms.append((ys[i]-xs[i])**2)
-    inrms.append((ys[i]-xs[i])**2)
+    inrms.append((xs[i]-ys[i])**2)
 print('chi squared = ', sum(chis))
 print('rms = ', str(np.sqrt((sum(rms))/(len(rms)))))
 print('individual rms = ', str(inrms))

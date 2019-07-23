@@ -34,13 +34,13 @@ The following section will calculate the radial veclocity shift of the object co
 """
 nsoflux = np.asarray((pd.read_csv(nsofile)['Flux']))
 nsowave = np.asarray((pd.read_csv(nsofile)['Wavelength']))
-#DEFINING A REQUIRED FUNCTION ----------------------------------------------------------------------------
+#DEFINING A REQUIRED FUNCTION
 def near_index(arr, num):
     arr = np.asarray(arr)
     index = (np.abs(arr - num)).argmin()
     return index
 
-#MAIN------------------------------------------------------------------------------------------------
+#MAIN
 adjust = []
 def fun(x):
     temp = []
