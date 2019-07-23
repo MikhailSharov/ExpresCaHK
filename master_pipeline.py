@@ -92,7 +92,7 @@ for i in range(len(expresfiles)):
         xtemp.append(j)
         ytemp.append(fun(j))
     adjust.append(xtemp[np.asarray(ytemp).argmin()])
-print(adjust)
+
 #SNR CHECK--------------------------------------------------------------------------------------------------------------
 """
 The follwing section will calculate the snr for each of the fits files
@@ -128,7 +128,7 @@ for i,j in zip(expresfiles, adjust):
     z = np.mean(np.asarray(temptempy))
     r = np.mean(np.asarray(tempx))
     snrarr.append(z/r)
-print(snrarr)
+
 #S_HK Calculation---------------------------------------------------------------------------------------------------------
 """
 The following section  will calculate the integrated values of the line cores and continuum
