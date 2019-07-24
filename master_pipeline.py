@@ -28,8 +28,7 @@ import scipy.optimize as opt
 import pandas as pd
 
 #INSERT FILE NAMES HERE AS AN ARRAY:
-expresfiles = ['101501_190503.1087.fits','103095_190503.1088.fits','141004_180602.1050.fits','86728_190210.1119.fits','95128_190210.1126.fits','109358_190210.1158.fits','144579_190427.1085.fits','146233_190427.1090.fits','157214_180625.1150.fits','165341_190506.1112.fits']
-
+expresfiles = ['157214_180625.1150.fits','157214_190623.1102.fits','157214_190623.1105.fits']
 c1 = 6.10546
 c2 = 0.024619  
 ys = np.array([])
@@ -107,27 +106,30 @@ for i,j in zip(expresfiles, adjust):
     image_file = fits.open(i)
     image_data =image_file[1].data.copy()
     image_wl = image_data['bary_wavelength']
-    image_un = image_data['uncertainty']
-    image_si = image_data['spectrum']
-    signal = []
-    uncertainty = []
-    
-    for k in range(len(image_wl)):
-        image_wl[k] = image_wl[k]/j
-    for k in range(1000,5100):
-        xrp.append(image_wl[7][k])
-        signal.append(image_si[7][k])
-        uncertainty.append(image_un[7][k])
-    for k in range(len(xrp)):
-        if xrp[k] < 4011 and xrp[k] > 3991:
-            tempy.append(signal[k])
-            tempx.append(uncertainty[k])            #calculating the SNR using mean uncertainty in R continuum and the spectrum value
-    tempy.sort(reverse = True)
-    for k in range(0,100):
-        temptempy.append(tempy[k])
-    z = np.mean(np.asarray(temptempy))
-    r = np.mean(np.asarray(tempx))
-    snrarr.append(z/r)
+    if image_wl[0][0] == 0:
+        snrarr.append(0)
+    else:
+        image_un = image_data['uncertainty']
+        image_si = image_data['spectrum']
+        signal = []
+        uncertainty = []
+        
+        for k in range(len(image_wl)):
+            image_wl[k] = image_wl[k]/j
+        for k in range(1000,5100):
+            xrp.append(image_wl[7][k])
+            signal.append(image_si[7][k])
+            uncertainty.append(image_un[7][k])
+        for k in range(len(xrp)):
+            if xrp[k] < 4011 and xrp[k] > 3991:
+                tempy.append(signal[k])
+                tempx.append(uncertainty[k])            #calculating the SNR using mean uncertainty in R continuum and the spectrum value
+        tempy.sort(reverse = True)
+        for k in range(0,100):
+            temptempy.append(tempy[k])
+        z = np.mean(np.asarray(temptempy))
+        r = np.mean(np.asarray(tempx))
+        snrarr.append(z/r)
 
 #S_HK Calculation---------------------------------------------------------------------------------------------------------
 """
@@ -291,7 +293,6 @@ else:
 """
 The following section calibrates the values for S_EXPRES and prints these values
 """
-
 for i in range(len(srpex)):
     if isinstance(srpex[i], str):
         pass
